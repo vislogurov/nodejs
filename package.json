@@ -1,0 +1,11 @@
+{
+  "name": "nodejs-yandex",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
