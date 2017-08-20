@@ -2,8 +2,6 @@
 
 // Закинуть этот код в IIFE, чтобы не было в глобальной области видимости formInputs, inputErrorClass и т.д., должен быть только объект MyForm
 
-// TODO еще добавить выключение кнопки, на время отправки формы
-// Еще можно сделать сброс данных в форме после успешной отправки, через setData
 const formInputs = ["fio", "email", "phone"];
 const inputErrorClass = "error";
 const emailRegex = /^.+?@.+?\.[^@]+$/;
@@ -23,7 +21,6 @@ const inputValidators = {
     }
 
     const [_, domain] = value.split('@');
-    console.log(allowDomains.includes(domain));
     // возвращаем true или false в зависимости от того, каким доменом оканчиватся мыло
     return allowDomains.includes(domain);
   },
@@ -47,10 +44,6 @@ class FormHandler {
     this.formStatusContainer = document.getElementById("resultContainer");
     this.formSubmitButton = document.getElementById("submitButton");
     this.form.addEventListener('submit', this.submit.bind(this));
-    // this.formSubmitButton.addEventListener('click', (e) => {
-    //   e.stopPropagation();
-    //   this.submit(e);
-    // })
 
     this.elements = formInputs.reduce((acc, inputName) => {
       acc[inputName] = this.form.elements[inputName]
@@ -58,7 +51,7 @@ class FormHandler {
     }, {});
     this.elementNames = Object.keys(this.elements);
 
-    // TODO Это было для разработки, можно убрать
+    // Начальные тестовые значения
     this.setData({
       fio: "F I O",
       email: "mail@ya.ru",
