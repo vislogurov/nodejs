@@ -53,7 +53,7 @@ class FormHandler {
 
     // Начальные тестовые значения
     this.setData({
-      fio: "F I O",
+      fio: "Горбунков Семён Семёныч",
       email: "mail@ya.ru",
       phone: "+7(111)222-33-44"
     });
