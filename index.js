@@ -1,7 +1,3 @@
-// TODO уточнить что есть хорошая практика для преобразования строки в число, нужно ли писать базу
-
-// Закинуть этот код в IIFE, чтобы не было в глобальной области видимости formInputs, inputErrorClass и т.д., должен быть только объект MyForm
-
 const formInputs = ["fio", "email", "phone"];
 const inputErrorClass = "error";
 const emailRegex = /^.+?@.+?\.[^@]+$/;
@@ -98,7 +94,6 @@ class FormHandler {
 
   submit(event) {
     event.preventDefault();
-
 
     const { isValid, errorFields } = this.validate();
     if (!isValid) {
