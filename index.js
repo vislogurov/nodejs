@@ -1,14 +1,14 @@
 const formInputs = ["fio", "email", "phone"];
 const inputErrorClass = "error";
-const emailRegex = /^.+?@.+?\.[^@]+$/;
 
+const emailRegex = /^.+?@.+?\.[^@]+$/;
 const phoneNumberRegEx = /\+7\(\d{3}\)\d{3}\-\d{2}\-\d{2}/;
+
 const phoneNumberSumLimit = 30;
-const allowDomains = ['ya.ru', 'yandex.ru', 'yandex.ua', 'yandex.by', 'yandex.kz', 'yandex.com'];
+const emailAllowedDomains = ['ya.ru', 'yandex.ru', 'yandex.ua', 'yandex.by', 'yandex.kz', 'yandex.com'];
 
 const inputValidators = {
   fio: function(value) {
-    // TODO усилить валидацию
     return value.trim().split(' ').length === 3
   },
   email: function(value) {
@@ -17,8 +17,8 @@ const inputValidators = {
     }
 
     const [_, domain] = value.split('@');
-    // возвращаем true или false в зависимости от того, каким доменом оканчиватся мыло
-    return allowDomains.includes(domain);
+    // возвращаем true если домен есть в списке разрешенных
+    return emailAllowedDomains.includes(domain);
   },
   phone: function(value) {
     if (!phoneNumberRegEx.test(value)) {
@@ -106,8 +106,8 @@ class FormHandler {
     //Если валидация прошла успешно, кнопка отправки формы должна стать неактивной...
     this.lockFormSubmit();
     const requestOptions = this._createOptions();
-    this._sendRequest(requestOptions);
     //...и должен отправиться ajax-запрос
+    this._sendRequest(requestOptions);
   }
 
   lockFormSubmit() {
@@ -129,15 +129,15 @@ class FormHandler {
         this.formStatusContainer.className  = `resultContainer ${status}`;
 
         if (status === "success") {
-
           this.formStatusContainer.innerText = "Success! Данные успешно отправлены.";
           this.setData({});
-        } else if (status === "progress" && response.timeout) {
+        } else if (status === "progress" && response.timeout && typeof response.timeout === 'number') {
           this.formStatusContainer.innerText = "Progress! Идет обработка данных...";
           setTimeout(() => {
             this._sendRequest(requestOptions);
           }, parseInt(response.timeout, 10));
         } else {
+          this.formStatusContainer.className  = `resultContainer error`;
           this.formStatusContainer.innerText = response.reason || "Ошибка обработки статуса";
         }
       } else {
