@@ -124,6 +124,7 @@ class FormHandler {
     return (response) => {
       const allowedStatuses = ["success", "error", "progress"];
       const status = response.status;
+      const timeout = parseInt(response.timeout, 10);
 
       if (allowedStatuses.includes(status)) {
         this.formStatusContainer.className  = `resultContainer ${status}`;
@@ -131,11 +132,11 @@ class FormHandler {
         if (status === "success") {
           this.formStatusContainer.innerText = "Success! Данные успешно отправлены.";
           this.setData({});
-        } else if (status === "progress" && response.timeout && typeof response.timeout === 'number') {
+        } else if (status === "progress" && timeout > 0) {
           this.formStatusContainer.innerText = "Progress! Идет обработка данных...";
           setTimeout(() => {
             this._sendRequest(requestOptions);
-          }, parseInt(response.timeout, 10));
+          }, timeout);
         } else {
           this.formStatusContainer.className  = `resultContainer error`;
           this.formStatusContainer.innerText = response.reason || "Ошибка обработки статуса";
