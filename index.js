@@ -134,6 +134,7 @@ class FormHandler {
           this.setData({});
         } else if (status === "progress" && timeout > 0) {
           this.formStatusContainer.innerText = "Progress! Идет обработка данных...";
+          // через timeout миллисекунд повторяем запрос
           setTimeout(() => {
             this._sendRequest(requestOptions);
           }, timeout);
