@@ -130,7 +130,7 @@ class FormHandler {
         this.formStatusContainer.className  = `resultContainer ${status}`;
 
         if (status === "success") {
-          this.formStatusContainer.innerText = "Success! Данные успешно отправлены.";
+          this.formStatusContainer.innerText = "Success";
           this.setData({});
         } else if (status === "progress" && timeout > 0) {
           this.formStatusContainer.innerText = "Progress! Идет обработка данных...";
