@@ -37,6 +37,7 @@ const inputValidators = {
 class FormHandler {
   constructor() {
     this.form = document.getElementById("myForm");
+    this.fieldset = document.getElementById("myFormFieldset");
     this.formStatusContainer = document.getElementById("resultContainer");
     this.formSubmitButton = document.getElementById("submitButton");
     this.form.addEventListener('submit', this.submit.bind(this));
@@ -84,9 +85,6 @@ class FormHandler {
   }
 
   setData(formData) {
-    // TODO подумать как точно должен работать этот метод
-    // Сейчас он скидывает все поля, если они не пришли в объекте formData
-    // Возможно нужно переделать, чтобы ставились только значения из formData
     this.elementNames.forEach(inputName => {
       this.elements[inputName].value = formData[inputName] || "";
     });
@@ -113,17 +111,21 @@ class FormHandler {
   lockFormSubmit() {
     this.submitInProgress = true;
     this.formSubmitButton.setAttribute("disabled", "disabled");
+    // Также на время отправки данных блокируем возможность ввести что-то в форму
+    this.fieldset.setAttribute("disabled", "disabled");
   }
 
   unlockFormSumbit() {
     this.submitInProgress = false;
     this.formSubmitButton.removeAttribute("disabled");
+    this.fieldset.removeAttribute("disabled", "disabled");
   }
 
   _handleResponse(requestOptions) {
     return (response) => {
       const allowedStatuses = ["success", "error", "progress"];
       const status = response.status;
+      // Страховка на случай, если в timeout придет строка, а не Number
       const timeout = parseInt(response.timeout, 10);
 
       if (allowedStatuses.includes(status)) {
