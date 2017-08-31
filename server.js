@@ -1,6 +1,6 @@
 // Это копипаста с MDN
 // https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework
-// Без сервера ни как, потому что XHR не работает с file:///...
+// Без сервера никак, потому что XHR не работает с file:///...
 //
 var http = require('http');
 var fs = require('fs');
